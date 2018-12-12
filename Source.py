@@ -2,6 +2,7 @@ from itertools import combinations
 from Libraries.deuces.deuces import Card, Deck, Evaluator
 import math
 from Libraries.MonteCarlo.Monte_Carlo_Poker_Simulation import MonteCarlo
+import os
 import random
 import tensorflow as tf
 
@@ -47,7 +48,7 @@ class TrainingSetPreparer:
     # 11: Queen (Q)
     # 12: King (K)
     # 13: Ace (A)
-
+    dir_path = "./Sets"
     evaluator = Evaluator()
     generated_probes = []
 
@@ -85,6 +86,8 @@ class TrainingSetPreparer:
     # 2 card in hand 4 visible on table (4)
     # 2 card in hand 5 visible on table (5)
     def generate_sets(self, on_board_parameter):
+        if not os.path.exists(self.dir_path):
+            os.makedirs(self.dir_path)
         if all([on_board_parameter >= 3, on_board_parameter <= 5]):
             # training set
             self.save_to_file_3_5("training", on_board_parameter, 32768)
@@ -104,7 +107,7 @@ class TrainingSetPreparer:
             self.save_to_file_0("test", test_probes)
 
     def save_to_file_0(self, filename_infix, probes):
-        with open("poker-hand-" + filename_infix + "-2.data", "w") as set:
+        with open(self.dir_path + "/poker-hand-" + filename_infix + "-2.data", "w") as set:
             mc = MonteCarlo(times=10000)  # 'times' says how many times it should play
             for idx in range(len(probes)):
                 # total_villains - how many opponents
@@ -115,7 +118,7 @@ class TrainingSetPreparer:
                 set.flush()
 
     def save_to_file_3_5(self, filename_infix, on_board_parameter, set_size):
-        with open("poker-hand-" + filename_infix + "-" + str(on_board_parameter + 2) + ".data", "w") as set:
+        with open(self.dir_path + "/poker-hand-" + filename_infix + "-" + str(on_board_parameter + 2) + ".data", "w") as set:
             self.generated_probes = []
             for idx in range(0, set_size):
                 set.write(self.generate_probe_3_5(on_board_parameter) + "\n")
@@ -131,5 +134,5 @@ class TrainingSetPreparer:
 
 
 training_set = TrainingSetPreparer()
-TrainingSetPreparer.generate_sets(training_set, 0)
+TrainingSetPreparer.generate_sets(training_set, 3)
 # one_hot = OneHot()
