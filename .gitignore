@@ -1,3 +1,6 @@
+# Generated sets
+*.data
+
 # Created by https://www.gitignore.io/api/python,pycharm
 # Edit at https://www.gitignore.io/?templates=python,pycharm
 
