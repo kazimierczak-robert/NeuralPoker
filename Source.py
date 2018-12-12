@@ -4,22 +4,6 @@ import math
 from Libraries.MonteCarlo.Monte_Carlo_Poker_Simulation import MonteCarlo
 import os
 import random
-import tensorflow as tf
-
-
-class OneHot:
-    one_hot_suits: list
-    one_hot_ranks: list
-    one_hot_hands: list
-
-    def __init__(self):
-        self.one_hot_suits = self.get_one_hot_vector(4)
-        self.one_hot_ranks = self.get_one_hot_vector(13)
-        self.one_hot_hands = self.get_one_hot_vector(10)
-
-    @staticmethod
-    def get_one_hot_vector(set_stop):
-        return tf.one_hot(list(range(1, set_stop + 1)), set_stop)
 
 
 class TrainingSetPreparer:
@@ -134,5 +118,4 @@ class TrainingSetPreparer:
 
 
 training_set = TrainingSetPreparer()
-TrainingSetPreparer.generate_sets(training_set, 3)
-# one_hot = OneHot()
+TrainingSetPreparer.generate_sets(training_set, 0)
