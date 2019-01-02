@@ -8,16 +8,16 @@ import random
 
 class TrainingSetPreparer:
     # Hands:
-    # 1: Royal Straight Flush
-    # 2: Straight Flush
-    # 3: Four of a Kind
-    # 4: Full House
-    # 5: Flush
-    # 6: Straight
-    # 7: Three of a Kind
-    # 8: Two Pair
-    # 9: Pair
-    # 10: High Card
+    # 0: Royal Straight Flush
+    # 1: Straight Flush
+    # 2: Four of a Kind
+    # 3: Full House
+    # 4: Flush
+    # 5: Straight
+    # 6: Three of a Kind
+    # 7: Two Pair
+    # 8: Pair
+    # 9: High Card
 
     # Suits:
     # 1: Spades (s)
@@ -58,8 +58,8 @@ class TrainingSetPreparer:
             probe.append(int(math.log2(Card.get_suit_int(card))) + 1)  # suit (library: 1, 2, 4, 8)
             probe.append(Card.get_rank_int(card) + 1)  # rank (library: 0, 1, 2,...,12)
 
-        # library: 1 - Straight Flush, so must +1
-        hand = 1 if hand_strength == 1 else self.evaluator.get_rank_class(hand_strength) + 1
+        # library: 0 - Straight Flush
+        hand = 0 if hand_strength == 1 else self.evaluator.get_rank_class(hand_strength)
         probe.append(hand)
         probe.append(1-self.evaluator.get_five_card_rank_percentage(hand_strength))
         return ','.join(map(str, probe))  # change list of number to string, where number is separated by ','
@@ -118,4 +118,4 @@ class TrainingSetPreparer:
 
 
 training_set = TrainingSetPreparer()
-TrainingSetPreparer.generate_sets(training_set, 0)
+TrainingSetPreparer.generate_sets(training_set, 3) # on board
