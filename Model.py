@@ -90,11 +90,3 @@ class Model:
                                               steps=test_set.number_of_samples)
         for idx in range(0, len(self.model.metrics_names)):
             print(self.model.metrics_names[idx] + ":", eval_result[idx])
-
-
-train_test = SetImporter("Sets\poker-hand-training-5.data", 5)
-test_test = SetImporter("Sets\poker-hand-test-5.data", 5)
-model = Model(train_test)
-model.create()
-model.train()
-model.test(test_test)

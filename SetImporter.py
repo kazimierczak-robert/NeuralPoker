@@ -15,6 +15,3 @@ class SetImporter:
     def divide_dataset(self, dataset):
         self.input = dataset[:, 0:self.all_cards*2]
         self.output = dataset[:, self.all_cards*2:]
-
-
-# importer = SetImporter("Sets\poker-hand-training-5.data", 5)
