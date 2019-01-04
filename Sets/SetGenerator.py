@@ -33,7 +33,7 @@ class SetGenerator:
     # 11: Queen (Q)
     # 12: King (K)
     # 13: Ace (A)
-    dir_path = "./Sets"
+    dir_path = "./Sets/GeneratedSets"
     evaluator = Evaluator()
 
     # Prepare files for 4 cases with all_cards_no: 2, 5, 6, 7
@@ -116,7 +116,7 @@ class SetGenerator:
                 set.flush()
 
     @staticmethod
-    def convert_and_divide_string_probe_to_ints(self, probe):
+    def convert_and_divide_string_probe_to_ints(probe):
         hand_cards = list()
         for card in probe[0:2]:
             # card in string format to integer format

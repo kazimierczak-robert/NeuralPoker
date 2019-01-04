@@ -1,5 +1,5 @@
 from tensorflow import keras
-from SetImporter import SetImporter
+from Sets.SetImporter import SetImporter
 import tensorflow as tf
 
 
