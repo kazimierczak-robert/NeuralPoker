@@ -39,36 +39,37 @@ class Model:
     # - Sparse Categorical Accuracy
     # - Top k Categorical Accuracy
     # - Sparse Top k Categorical Accuracy
-    def create(self):
+    def create(self, neurons_in_hidden_layer):
         self.model = keras.models.Sequential()
         # 17 = 13 ranks + 4 suits
-        input_layer = keras.layers.Input((17*self.dataset.all_cards,))
-        second_layer = keras.layers.Dense(7, activation=tf.nn.relu)(input_layer)
+        input_layer = keras.layers.Input((17*self.dataset.all_cards,), name="input_layer")
+        hidden_layer = keras.layers.Dense(neurons_in_hidden_layer, activation=tf.nn.relu, name="hidden_layer")(input_layer)
         # 1 output in NN
         if self.dataset.all_cards == 2:
-            output_layer = keras.layers.Dense(1, activation=tf.nn.sigmoid)(second_layer)
+            output_layer = keras.layers.Dense(1, activation=tf.nn.sigmoid, name="output_layer")(hidden_layer)
             self.model = keras.models.Model(input_layer, output_layer)
             # metrics for regression
             self.model.compile(optimizer=tf.train.AdamOptimizer(), loss='mse',
                                metrics='mse')
         # 2 outputs in NN
         else:
-            output_1 = keras.layers.Dense(10, activation=tf.nn.softmax)(second_layer)
-            output_2 = keras.layers.Dense(1, activation=tf.nn.sigmoid)(second_layer)
+            output_1 = keras.layers.Dense(10, activation=tf.nn.softmax, name="output_layer_1")(hidden_layer)
+            output_2 = keras.layers.Dense(1, activation=tf.nn.sigmoid, name="output_layer_2")(hidden_layer)
             self.model = keras.models.Model(input_layer, [output_1, output_2])
             # metrics for classification and regression
-            self.model.compile(optimizer=tf.train.AdamOptimizer(), loss={'dense_1': 'sparse_categorical_crossentropy',
-                                                                         'dense_2': 'mse'},
-                               metrics={'dense_1': 'acc', 'dense_2': 'mse'})
+            self.model.compile(optimizer=tf.train.AdamOptimizer(), loss={'output_layer_1': 'sparse_categorical_crossentropy',
+                                                                         'output_layer_2': 'mse'},
+                               metrics={'output_layer_1': 'acc', 'output_layer_2': 'mse'})
 
     def train(self):
+        # verbose = 0 - don't print
         if self.dataset.all_cards == 2:
             self.model.fit(self.convert_input_to_one_hot(self.dataset.input), self.dataset.output, epochs=150,
-                           steps_per_epoch=self.dataset.number_of_samples)
+                           steps_per_epoch=self.dataset.number_of_samples, verbose=0)
         else:
             self.model.fit(self.convert_input_to_one_hot(self.dataset.input), [self.dataset.output[:, 0],
                                                                                self.dataset.output[:, 1]], epochs=1,
-                           steps_per_epoch=self.dataset.number_of_samples)
+                           steps_per_epoch=self.dataset.number_of_samples, verbose=0)
 
     def save(self, output_file_name):
         with open(output_file_name + ".json", "w") as json_file:
@@ -83,10 +84,10 @@ class Model:
     def test(self, test_set: SetImporter):
         if test_set.all_cards == 2:
             eval_result = self.model.evaluate(self.convert_input_to_one_hot(test_set.input), test_set.output,
-                                              steps=test_set.number_of_samples)
+                                              steps=test_set.number_of_samples, verbose=0)
         else:
             eval_result = self.model.evaluate(self.convert_input_to_one_hot(test_set.input), [test_set.output[:, 0],
                                                                                               test_set.output[:, 1]],
-                                              steps=test_set.number_of_samples)
+                                              steps=test_set.number_of_samples, verbose=0)
         for idx in range(0, len(self.model.metrics_names)):
             print(self.model.metrics_names[idx] + ":", eval_result[idx])

@@ -33,6 +33,7 @@ class SetGenerator:
     # 11: Queen (Q)
     # 12: King (K)
     # 13: Ace (A)
+
     dir_path = "./Sets/GeneratedSets"
     evaluator = Evaluator()
 

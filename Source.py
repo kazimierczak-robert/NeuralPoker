@@ -1,11 +1,19 @@
 # # Uncomment to generate sets
 # from Sets.SetGenerator import SetGenerator
-# training_set = SetGenerator()
+# generator = SetGenerator()
 # training_set.generate_sets(5)
 
-# train_test = SetImporter("Sets\poker-hand-training-5.data", 5)
-# test_test = SetImporter("Sets\poker-hand-test-5.data", 5)
-# model = Model(train_test)
-# model.create()
-# model.train()
-# model.test(test_test)
+from Sets.SetImporter import SetImporter
+from Sets.SetGenerator import SetGenerator
+from Model import Model
+
+all_cards_no = 5
+train_set = SetImporter("{}/{}.data".format(SetGenerator.dir_path, "training", all_cards_no), all_cards_no)
+test_set = SetImporter("{}/{}.data".format(SetGenerator.dir_path, "test", all_cards_no), all_cards_no)
+
+model = Model(train_set)
+# for neurons_in_hidden_layer in range(8, 32, 8):
+print("Result for {} neurons in hidden layer".format(28))
+model.create(28)
+model.train()
+model.test(test_set)
