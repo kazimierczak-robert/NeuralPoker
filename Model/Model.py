@@ -57,7 +57,7 @@ class Model:
             # verbose = 0 - don't print
             if self.dataset.all_cards == 2:
                 self.model.fit(self.convert_input_to_one_hot(self.dataset.input, self.dataset.all_cards),
-                               self.dataset.output, epochs=1, steps_per_epoch=self.dataset.number_of_samples, verbose=0)
+                               self.dataset.output, epochs=15, steps_per_epoch=self.dataset.number_of_samples, verbose=0)
             else:
                 self.model.fit(self.convert_input_to_one_hot(self.dataset.input, self.dataset.all_cards),
                                [self.dataset.output[:, 0], self.dataset.output[:, 1]], epochs=1,
