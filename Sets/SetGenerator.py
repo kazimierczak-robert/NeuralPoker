@@ -93,8 +93,7 @@ class SetGenerator:
                 # total_villains - how many opponents
                 if all_cards_no == 2:
                     equity = mc.preflop(card1=probe[0], card2=probe[1], total_villains=4)
-                    set.write("{}\n".format(','.join(map(str, list(itertools.chain.from_iterable(
-                        map(self.get_ints_from_card_symbols, probe))) + [equity]))))
+                    set.write("{}\n".format(','.join(map(str, self.convert_char_input_to_int_list(probe) + [equity]))))
 
                 elif all([all_cards_no >= 5, all_cards_no <= 7]):
                     hand_cards, board_cards = self.convert_and_divide_string_probe_to_ints(probe)
@@ -112,8 +111,8 @@ class SetGenerator:
                         equity = mc.river(card1=probe[0], card2=probe[1], fcard1=probe[2],
                                           fcard2=probe[3], fcard3=probe[4], tcard=probe[5], rcard=probe[6],
                                           total_villains=4)
-                    set.write("{}\n".format(','.join(map(str, list(itertools.chain.from_iterable(
-                        map(self.get_ints_from_card_symbols, probe))) + [hand] + [equity]))))
+                    set.write("{}\n".format(','.join(map(str, self.convert_char_input_to_int_list(probe) +
+                                                         [hand] + [equity]))))
                 set.flush()
 
     @staticmethod
@@ -136,3 +135,7 @@ class SetGenerator:
         rank_int = Card.CHAR_RANK_TO_INT_RANK[rank_char] + 1
         suit_int = int(math.log2(Card.CHAR_SUIT_TO_INT_SUIT[suit_char])) + 1
         return [suit_int, rank_int]
+
+    @staticmethod
+    def convert_char_input_to_int_list(input: list):
+        return list(itertools.chain.from_iterable(map(SetGenerator.get_ints_from_card_symbols, input)))
