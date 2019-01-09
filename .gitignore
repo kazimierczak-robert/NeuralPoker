@@ -202,13 +202,5 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/python,pycharm
 
-# Generated sets
-*.data
-
-# Saved models
-*.json
-*.h5
-
-# Jupiter
+# Jupyter
 .ipynb_checkpoints/
-*.ipynb
