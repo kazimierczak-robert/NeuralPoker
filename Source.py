@@ -7,7 +7,7 @@
 # from Sets.SetGenerator import SetGenerator
 from Model.Model import Model
 
-all_cards_no = 2
+all_cards_no = 5
 # train_set = SetImporter("{}/poker-hand-{}-{}.data".format(SetGenerator.dir_path, "training", all_cards_no),
 # all_cards_no)
 # test_set = SetImporter("{}/poker-hand-{}-{}.data".format(SetGenerator.dir_path, "test", all_cards_no), all_cards_no)
@@ -20,4 +20,4 @@ model.load("{}/model-{}".format(Model.dir_path, all_cards_no), all_cards_no)
 # model.train()
 # model.save("{}/model-{}".format(Model.dir_path, all_cards_no))
 # model.test(test_set)
-print(model.predict(['5s', '5d', 'Td', 'Ts', 'Qs']))
+print(model.predict(['Qs', 'Qh', 'Qd', 'Kc', 'Kh']))
