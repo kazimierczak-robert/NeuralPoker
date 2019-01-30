@@ -1,21 +1,21 @@
 # NeuralPoker
 
-Project is about neural network determinig hand and probability of winning with hand and game stage (*preflop*, *flop*, *turn*, *river*).
+Project is about neural network determinig hand and probability of winning with hand and game stage (*preflop*, *flop*, *turn*, *river*) in Poker Texas Hold'em. Requires python3.
 
-# External Libraries
+## External Libraries
 
 * **Deuces** - used to determine hand and their strength. Available on: https://github.com/worldveil/deuces and compatible with python2 
 * **Monte-Carlo** - used to determine probability of winning with hand and game stage using Monte Carlo method. Available on: https://github.com/Blind0ne/Monte-Carlo. Requires **deuces** library.
 
-# Generating training and test set
+## Generating training and test set
 
-To generate **training** and **test set** use the *SetGenerator.py* file. <code>generate_sets</code> method takes parameters: the number of all card at given stage: <code>all_cards_no(2, 5, 6, 7)</code>. The number of sets depending on the parameter:
+To generate **training** and **test set** use the *SetGenerator.py* file. <code>generate_sets</code> method takes parameters: the number of all card at given stage: <code>all_cards_no(2, 5, 6, 7)</code>. The number of sets depends on the parameter:
 
   <table>
   <tr>
-    <th>Parametr</th>
-    <th>Zbiór testowy</th>
-    <th>Zbiór treningowy</th>
+    <th>Parameter</th>
+    <th>Test set</th>
+    <th>Training set</th>
   </tr>
   <tr>
     <td>2</td>
@@ -39,7 +39,7 @@ To generate **training** and **test set** use the *SetGenerator.py* file. <code>
   </tr>
 </table>
 
-Methods prints to STDOUT number of the generated sample (trening, test.)
+Method prints to STDOUT number of the generated sample (trening, test)
 
 Part of the sample training set for the parameter <code>all_cards_no = 2</code>:
 <pre>
@@ -51,7 +51,8 @@ Part of the sample training set for the parameter <code>all_cards_no = 2</code>:
 1,6,3,6,0.24680000000000002
 </code>
 </pre>
-Card is represented by pair: suit and rank. Two pairs are card in hand. Last number is the probability of winnig.
+Card is represented by pair: suit and rank. Two pairs are cards in hand. Last number is the probability of winnig.
+
 Part of the sample training set for the parameter <code>all_cards_no = 6</code>:
 <pre>
 <code>
@@ -72,7 +73,7 @@ generator.generate_sets(all_cards_no)
 </code>
 </pre>
 
-# Loading of the training and test set
+## Loading of the training and test set
 You must import the <code>SetImporter.py</code> and <code>SetGenerator.py</code> files. The constructor of the <code>SetImporter</code> class is two-argument: the path to the file with the set and the number of all cards at a given stage of the game.
 <pre>
 <code>
@@ -84,7 +85,7 @@ test_set = SetImporter("{}/{}.data".format(SetGenerator.dir_path, "test", all_ca
 </code>
 </pre>
 
-# Model of the neural network
+## Model of the neural network
 To train the model and test it, execute the code below. The <code>create</code> method parameter is the number of hidden layer neurons.
 <pre>
 <code>
@@ -102,7 +103,7 @@ model.train()
 model.test(test_set)
 </code>
 </pre>
-The <code>create</code> method creates a neural network model using the **tensorflow** library. The network consists of an input layer with 17 neurons (13 rank + 4 suits), one hidden Dense layer, which uses the function of relu activation. Depending on the selected stage of the game (2 or 5, 6, 7), the network has one (for 2) or 2 output layers (for 5, 6, 7). The output layer with one neuron determining the probability of winning (regression) uses the sigmoid activation function. The output layer with 10 neurons defining the hand (classification) uses the softmax activation function. The following metrics were used: acc (classification), mse (regression).
+The <code>create</code> method creates a neural network model using the **tensorflow** library. The network consists of an input layer with 17 neurons (13 rank + 4 suits), one hidden Dense layer, which uses the relu activation function. Depending on the selected stage of the game (2 or 5, 6, 7), the network has one (for 2) or 2 output layers (for 5, 6, 7). The output layer with one neuron determining the probability of winning (regression) uses the sigmoid activation function. The output layer with 10 neurons defining the hand (classification) uses the softmax activation function. The following metrics were used: acc (classification), mse (regression).
 <pre>
 <code>
 def compile(self):
@@ -134,7 +135,7 @@ def create(self, neurons_in_hidden_layer):
 </code>
 </pre>
 
-# Configuration testing
+## Configuration testing
 * <code>all_cards_no = 2</code>
 
 <table>
@@ -387,14 +388,14 @@ def create(self, neurons_in_hidden_layer):
   </tr>
 </table>
 
-# Using a neural network
-## Save the model to files
+## Using a neural network
+### Save the model to files
 <code>model.save("{}/model-{}".format(Model.dir_path, all_cards_no))</code>
 
-## Reading the model from files
+### Reading the model from files
 <code>model.load("{}/model-{}".format(Model.dir_path, all_cards_no), all_cards_no)</code>
 
-## Prediction of results
+### Prediction of results
 Hands are marked with a number. Cards are represented by concatenation of characters: suit and rank.
 
 <div>
