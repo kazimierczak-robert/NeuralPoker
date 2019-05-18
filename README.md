@@ -1,6 +1,6 @@
 # NeuralPoker
 
-Project is about neural network determinig hand and probability of winning with hand and game stage (*preflop*, *flop*, *turn*, *river*) in Poker Texas Hold'em. Requires python3.
+Project is about neural network determining hand and probability of winning with hand and game stage (*preflop*, *flop*, *turn*, *river*) in Poker Texas Hold'em. Requires python3.
 
 ## External Libraries
 
